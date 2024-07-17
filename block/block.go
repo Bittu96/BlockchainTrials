@@ -1,6 +1,7 @@
 package block
 
 import (
+	"blockchainTrails/config"
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
@@ -9,11 +10,9 @@ import (
 	"time"
 )
 
-const BlockchainDifficulty = 5
-
 type Block struct {
 	Index        int64       `json:"index"`
-	Data         interface{} `json:"transaction_id"`
+	Data         interface{} `json:"transactionId"`
 	Hash         string      `json:"hash"`
 	PreviousHash string      `json:"previousHash"`
 	Timestamp    int64       `json:"timestamp"`
@@ -22,41 +21,31 @@ type Block struct {
 
 // my genesis block
 func Genesis() Block {
-	return Block{
+	genesisBlock := Block{
 		Index:        0,
 		Data:         "Welcome to the new Genesis!",
 		Timestamp:    1709116563,
 		Nonce:        0,
 		PreviousHash: "0",
-		Hash: blockHash(Block{
-			Index:        0,
-			Data:         "Welcome to the new Genesis!",
-			Timestamp:    1709116563,
-			Nonce:        0,
-			PreviousHash: "0",
-		}),
 	}
+	genesisBlock.Hash = blockHash(genesisBlock)
+	return genesisBlock
 }
 
 // create next new block
 func (b Block) New(data interface{}, nonce int64) Block {
 	var timeStamp = time.Now().UnixNano()
 	// var nonce = rand.Int63n(blockchainDifficulty)
-
-	return Block{
+	newBlock := Block{
 		Index:        b.Index + 1,
 		Data:         data,
 		Timestamp:    timeStamp,
 		Nonce:        nonce,
 		PreviousHash: b.Hash,
-		Hash: blockHash(Block{
-			Index:        b.Index + 1,
-			Data:         data,
-			Timestamp:    timeStamp,
-			Nonce:        nonce,
-			PreviousHash: b.Hash,
-		}),
 	}
+	newBlock.Hash = blockHash(newBlock)
+
+	return newBlock
 }
 
 // get hash of block data
@@ -117,7 +106,7 @@ func (b Block) ValidateBlock(new Block) bool {
 func (b Block) validateHashDifficulty(blockHash string) bool {
 	for i, v := range blockHash {
 		if string(v) != "0" {
-			return i >= BlockchainDifficulty
+			return i >= config.BlockchainDifficulty
 		}
 	}
 	return false

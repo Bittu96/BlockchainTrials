@@ -2,6 +2,7 @@ package blockchain
 
 import (
 	"blockchainTrails/block"
+	"blockchainTrails/config"
 	"fmt"
 )
 
@@ -14,17 +15,17 @@ func (bc *Blockchain) getChain() Blockchain {
 
 // get blockchain difficulty
 func (bc *Blockchain) getDifficulty() int {
-	return block.BlockchainDifficulty
+	return config.BlockchainDifficulty
 }
 
 // get the genesis block
-func (bc *Blockchain) getGenesisBlock() block.Block {
-	return bc.getChain()[0]
-}
+// func (bc *Blockchain) getGenesisBlock() *block.Block {
+// 	return &bc.getChain()[0]
+// }
 
 // get the last added block
-func (bc *Blockchain) getLatestBlock() block.Block {
-	return bc.getChain()[len(bc.getChain())-1]
+func (bc *Blockchain) getLatestBlock() *block.Block {
+	return &bc.getChain()[len(bc.getChain())-1]
 }
 
 // add new block to blockchain
@@ -75,11 +76,6 @@ func (bc *Blockchain) validateHashDifficulty(blockHash string) bool {
 // validate this blockchain
 func (bc *Blockchain) Validate() bool {
 	fmt.Println("\nvalidating blockchain..")
-
-	// compare genesis block with the chains root block
-	if bc.getGenesisBlock() != bc.getChain()[0] {
-		return false
-	}
 
 	// validate each block
 	for i := 1; i < len(bc.getChain()); i++ {
