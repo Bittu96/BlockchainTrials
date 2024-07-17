@@ -1,4 +1,5 @@
 package config
 
-const BlockchainDifficulty = 5
-const BlockCount = 3
+var (
+	BlockchainDifficulty = 5 // default value set to 5
+)

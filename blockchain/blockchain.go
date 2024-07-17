@@ -14,8 +14,13 @@ func (bc *Blockchain) getChain() Blockchain {
 }
 
 // get blockchain difficulty
-func (bc *Blockchain) getDifficulty() int {
+func (bc *Blockchain) getBlockchainDifficulty() int {
 	return config.BlockchainDifficulty
+}
+
+// get blockchain difficulty
+func (bc *Blockchain) setBlockchainDifficulty(dif int) {
+	config.BlockchainDifficulty = dif
 }
 
 // get the genesis block
@@ -67,7 +72,7 @@ func (bc *Blockchain) generateNewBlock(data interface{}) block.Block {
 func (bc *Blockchain) validateHashDifficulty(blockHash string) bool {
 	for i, v := range blockHash {
 		if string(v) != "0" {
-			return i >= bc.getDifficulty()
+			return i >= bc.getBlockchainDifficulty()
 		}
 	}
 	return false

@@ -2,7 +2,6 @@ package main
 
 import (
 	"blockchainTrails/blockchain"
-	"blockchainTrails/config"
 	"blockchainTrails/transaction"
 	"encoding/json"
 	"fmt"
@@ -20,7 +19,8 @@ func prettyPrint(data interface{}) {
 func main() {
 	bc := blockchain.New()
 
-	for range config.BlockCount {
+	blockCount := 3
+	for range blockCount {
 		bc.AddNewBlock(transaction.GenerateRecord())
 	}
 
