@@ -1,5 +1,7 @@
 # BlockchainTrials
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Bittu96_chatterbox&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Bittu96_chatterbox)
+
 This is a blockchain implementation where you can play around with blockchain, blocks and validations! 
 
 ## Install
